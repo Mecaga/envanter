@@ -1,103 +1,180 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1200, height=630, initial-scale=1.0">
+
+<title>Envanter</title>
 
 <style>
+
 body{
 margin:0;
-background:#111;
+background:#2b2d31;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
-overflow:hidden;
-font-family:Arial;
+font-family:sans-serif;
 }
 
-.game-container{
-width:420px;
-height:720px;
-background:#111;
+/* ANA KART */
+.container{
+width:1200px;
+height:630px;
+background:#1e1f22;
+border-radius:20px;
+padding:20px;
+box-sizing:border-box;
 color:white;
-border-radius:15px;
-padding:12px;
 display:flex;
 flex-direction:column;
+justify-content:space-between;
 }
 
-/* ÜST PANEL */
-.top-panel{
-display:grid;
-grid-template-columns:1fr 1fr 1fr 1fr;
-gap:8px;
-align-items:center;
-}
-
-.avatar{
-height:150px;
-background:#222;
-border:2px solid #555;
+/* ÜST BİLGİ */
+.top{
 display:flex;
+justify-content:space-between;
 align-items:center;
-justify-content:center;
-font-size:50px;
-border-radius:10px;
-}
-
-.equip{
-display:flex;
-flex-direction:column;
-gap:10px;
-align-items:center;
-}
-
-.slot{
-width:60px;
-height:60px;
-background:#222;
-border:1px solid #555;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:26px;
-border-radius:8px;
 }
 
 .profile{
 display:flex;
-flex-direction:column;
-gap:5px;
+align-items:center;
+gap:15px;
 }
 
-.level-box{
+.avatar{
+width:80px;
+height:80px;
+border-radius:50%;
+background:#5865f2;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:35px;
+}
+
+/* LEVEL BAR */
+.levelBox{
+width:300px;
+}
+
+.levelBar{
 width:100%;
-height:18px;
-background:#333;
+height:20px;
+background:#444;
 border-radius:10px;
 overflow:hidden;
 }
 
-.level-bar{
+.levelFill{
 height:100%;
-background:lime;
-width:0%;
+background:#57f287;
+width:40%;
 }
 
-/* BOT PANEL */
-.bot-panel{
-margin-top:10px;
-height:70px;
-background:#1b1b1b;
-border:1px solid #555;
+/* MESAJ ALANI */
+.message{
+height:60px;
+background:#2b2d31;
 border-radius:10px;
 display:flex;
 align-items:center;
-padding:10px;
+padding-left:15px;
 }
 
 /* ENVANTER */
 .inventory{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+grid-template-rows:repeat(4,1fr);
+gap:10px;
+margin-top:10px;
+}
+
+.slot{
+background:#2b2d31;
+border-radius:10px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:28px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- ÜST -->
+<div class="top">
+
+<div class="profile">
+<div class="avatar">👤</div>
+
+<div>
+<div id="username">Username</div>
+<div id="money">💰 0</div>
+</div>
+</div>
+
+<div class="levelBox">
+<div id="levelText">Level 1 / 100</div>
+<div class="levelBar">
+<div id="levelFill" class="levelFill"></div>
+</div>
+</div>
+
+</div>
+
+<!-- MESAJ -->
+<div class="message" id="messageBox">
+Hoşgeldin
+</div>
+
+<!-- ENVANTER -->
+<div class="inventory" id="inventory"></div>
+
+</div>
+
+<script>
+
+/* URL PARAMETRE OKUMA */
+const params = new URLSearchParams(window.location.search);
+
+const username = params.get("user") || "Player";
+const money = params.get("money") || "0";
+const level = params.get("level") || "1";
+const msg = params.get("msg") || "Hoşgeldin";
+const items = (params.get("items") || "").split(",");
+
+/* PROFİL */
+document.getElementById("username").innerText = username;
+document.getElementById("money").innerText = "💰 " + money;
+document.getElementById("levelText").innerText = "Level " + level + " / 100";
+document.getElementById("messageBox").innerText = msg;
+
+/* LEVEL BAR */
+document.getElementById("levelFill").style.width = level + "%";
+
+/* ENVANTER */
+const inv = document.getElementById("inventory");
+
+for(let i=0;i<20;i++){
+let slot = document.createElement("div");
+slot.className="slot";
+slot.innerText = items[i] || "";
+inv.appendChild(slot);
+}
+
+</script>
+
+</body>
+</html>.inventory{
 margin-top:10px;
 flex-grow:1;
 display:grid;
