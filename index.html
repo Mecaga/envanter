@@ -1,1 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<style>
+body{
+margin:0;
+background:#111;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+overflow:hidden;
+font-family:Arial;
+}
+
+.game-container{
+width:420px;
+height:720px;
+background:#111;
+color:white;
+border-radius:15px;
+padding:12px;
+display:flex;
+flex-direction:column;
+}
+
+/* ÜST PANEL */
+.top-panel{
+display:grid;
+grid-template-columns:1fr 1fr 1fr 1fr;
+gap:8px;
+align-items:center;
+}
+
+.avatar{
+height:150px;
+background:#222;
+border:2px solid #555;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:50px;
+border-radius:10px;
+}
+
+.equip{
+display:flex;
+flex-direction:column;
+gap:10px;
+align-items:center;
+}
+
+.slot{
+width:60px;
+height:60px;
+background:#222;
+border:1px solid #555;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:26px;
+border-radius:8px;
+}
+
+.profile{
+display:flex;
+flex-direction:column;
+gap:5px;
+}
+
+.level-box{
+width:100%;
+height:18px;
+background:#333;
+border-radius:10px;
+overflow:hidden;
+}
+
+.level-bar{
+height:100%;
+background:lime;
+width:0%;
+}
+
+/* BOT PANEL */
+.bot-panel{
+margin-top:10px;
+height:70px;
+background:#1b1b1b;
+border:1px solid #555;
+border-radius:10px;
+display:flex;
+align-items:center;
+padding:10px;
+}
+
+/* ENVANTER */
+.inventory{
+margin-top:10px;
+flex-grow:1;
+display:grid;
+grid-template-columns:repeat(5,1fr);
+grid-template-rows:repeat(4,1fr);
+gap:8px;
+}
+
+.inv-slot{
+background:#222;
+border:1px solid #555;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="game-container">
+
+<div class="top-panel">
+
+<div class="equip" id="leftEquip"></div>
+
+<div class="avatar">🧍</div>
+
+<div class="equip" id="rightEquip"></div>
+
+<div class="profile">
+<b id="username"></b>
+<div id="money"></div>
+<div id="levelText"></div>
+
+<div class="level-box">
+<div class="level-bar" id="levelBar"></div>
+</div>
+</div>
+
+</div>
+
+<div class="bot-panel" id="botMessage"></div>
+
+<div class="inventory" id="inventory"></div>
+
+</div>
+
+<script>
+
+/* URL PARAM OKUMA */
+function getParam(name){
+let url=new URL(window.location.href);
+return url.searchParams.get(name);
+}
+
+/* PROFİL VERİLER */
+let username=getParam("user") || "Player";
+let money=getParam("money") || "0";
+let level=getParam("level") || "1";
+let msg=getParam("msg") || "Bot mesajı yok";
+
+document.getElementById("username").innerText=username;
+document.getElementById("money").innerText="💰 "+money;
+document.getElementById("levelText").innerText="Level "+level;
+document.getElementById("botMessage").innerText=msg;
+
+/* LEVEL BAR */
+let levelPercent=Math.min(level*10,100);
+document.getElementById("levelBar").style.width=levelPercent+"%";
+
+/* EKİPMAN SLOT */
+function createEquip(id){
+let area=document.getElementById(id);
+for(let i=0;i<3;i++){
+let slot=document.createElement("div");
+slot.className="slot";
+area.appendChild(slot);
+}
+}
+createEquip("leftEquip");
+createEquip("rightEquip");
+
+/* ENVANTER SLOT */
+const inventory=document.getElementById("inventory");
+
+for(let i=0;i<20;i++){
+let slot=document.createElement("div");
+slot.className="inv-slot";
+inventory.appendChild(slot);
+}
+
+/* ENVANTER API */
+let items=getParam("items");
+
+if(items){
+
+let itemList=items.split(",");
+let slots=document.querySelectorAll(".inv-slot");
+
+itemList.forEach((item,index)=>{
+
+if(item!="empty" && slots[index]){
+let div=document.createElement("div");
+div.textContent=item;
+slots[index].appendChild(div);
+}
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
