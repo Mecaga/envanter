@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1200, height=630, initial-scale=1.0">
-<title>Envanter Canvas</title>
+<title>Envanter PNG</title>
 </head>
 <body style="margin:0; background:#2b2d31;">
 
 <canvas id="canvas" width="1200" height="630"></canvas>
 
 <script>
-// URL Parametreleri
+// URL Parametrelerini oku
 const params = new URLSearchParams(window.location.search);
 const username = params.get("user") || "Player";
 const money = params.get("money") || "0";
@@ -58,7 +58,7 @@ ctx.fillStyle="#fff";
 ctx.font="24px Arial";
 ctx.fillText(msg, 70, 290);
 
-// ENVANTER
+// ENVANTER 4x5
 let startX=50;
 let startY=330;
 let slotSize=100;
@@ -81,6 +81,11 @@ for(let i=0;i<20;i++){
     ctx.fillText(items[i],x+25,y+65);
   }
 }
+
+// PNG Çıktısı
+// GitHub Pages bu sayfayı açınca direkt canvas görünecek
+// BDFD $image[] ile link verilecek
 </script>
+
 </body>
 </html>
